@@ -1,0 +1,254 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>VOSP-Guide</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">VOSP-Guide</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <p><img src="img/VOSP_splash.png" alt="VOSP SPLASH" /></p>
+<h1 id="vosp"><a class="header" href="#vosp">VOSP</a></h1>
+<p>VOSP stands for (Vlasov Open Source Project).
+It takes benefit of operator splitting to create a powerful, polyvalent and easy to use Vlasov solver.</p>
+<p>VOSP can handle multiple species with different types of collisions. And is currently suited for simulating complex chemistry inside a vlasov simulation.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="solver"><a class="header" href="#solver">Solver</a></h1>
+<p>The solver is the main object of VOSP. It takes different parameters listed below.</p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Description</th></tr></thead><tbody>
+<tr><td>DT</td><td>time step</td></tr>
+<tr><td>end time</td><td>the simulation will run until the time reaches end_time</td></tr>
+<tr><td>LX</td><td>Length of the simulation</td></tr>
+<tr><td>NX</td><td>Number of points in the spatial direction</td></tr>
+<tr><td>NV</td><td>Number of points in the velocity direction</td></tr>
+<tr><td>lambda</td><td>Length of simulation divided by lambda debye</td></tr>
+<tr><td>Save every N iteration</td><td>The solver will save the potential and the species data in an h5 file every N iteration</td></tr>
+</tbody></table>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="elements"><a class="header" href="#elements">Elements</a></h1>
+<p>Elements are the object representing the species simulated. Creating an element is done with the button "Add element". The element is automaticaly added to the solver.
+The different parameters used are described below.</p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Description</th></tr></thead><tbody>
+<tr><td>Element name</td><td>The name in the element stored in the solver</td></tr>
+<tr><td>Right and Left Boundary condition</td><td>Set the Left and right boundary condition for this element</td></tr>
+<tr><td>Initial condition</td><td>Initial condition for this element</td></tr>
+<tr><td>Length Velocity</td><td>The length of the velocity space for this element. The velocity space is [-Lv, +Lv]</td></tr>
+<tr><td>Z charge</td><td>The Z charge of the element</td></tr>
+<tr><td>Ratio of mass</td><td>The ratio of mass with an electron (me/mi)</td></tr>
+</tbody></table>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="example"><a class="header" href="#example">Example</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="numerical-methods"><a class="header" href="#numerical-methods">Numerical methods</a></h1>
+<p>The Vlasov equation is an equation used in plasma physics. It is given by the following equation, where "s" denote the species "s". And \(\hat C_{s,s'}\) denote the collision operator between species "\(s\)" and "\(s'\)".
+\[
+\begin{cases}
+\partial_t f_s + \vec v \partial_x f_s + \frac{q_s}{m_s} : \vec E : \partial_v f_s = \sum_{s'} \hat C_{s,s'} \\
+\lambda^2 \Delta \phi = -\sum_s q_s n_s<br />
+\end{cases}
+\]</p>
+<p>The space of the solution lies in the phase space \( (\vec x , \vec v)\) which means that the space of the solution is at least 2 dimensional, and at best 6 dimensional (3 space, 3 velocity). For the moment, the code only works in 1D-1V.</p>
+<p>A solver of the Vlasov-Equation is therefore computationally expensive. Moreover, more often than not there exist a huge difference of kinetics between at least two species. The CFL stability condition is therefore a big problem of the Vlasov-Equation. Hence, the methods described below will not suffer this stability condition. However, the time discretization error is still in \(O(\Delta t ^2)\). The user will therefore have to find a compromise between time step and calculation.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="operator-splitting"><a class="header" href="#operator-splitting">Operator Splitting</a></h1>
+<p>The operator splitting (or "time splitting" in plasma physics) is a numerical method that transform the equation into simpler problem to solve.
+With operator splitting, one will solve first advection along space axis, then advection along velocity axis, and finally collisions. All those steps represents therefore one time step. This operator splitting comes with a cost of a time discretization error in \(O(\Delta t ^2) \) (higher order schemes also exist).</p>
+<p>Operator splitting will be useful when adding different types of collisions and to gain more flexibility for the solver.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="semi-lagrangian-method"><a class="header" href="#semi-lagrangian-method">Semi-Lagrangian method</a></h1>
+<p>Thanks to operator splitting, solving Vlasov-Equation boils down to solving different advection step (respectively \( \partial_t f_s = -v \partial_x f_s \), and \(\partial_t f_s = -E \partial_v f_s \)).
+Semi-Lagrangian method (SL) takes advantage of the explicit solution of the advection equation.
+Indeed, v and E being constants along respectively x and v axis, the solution of those equations take the form given below.
+\[
+f_s(x,v,t) = f_s(x-v \Delta t ,v,t - \Delta t)
+\]
+Therefore, given a point \((x,v,t) \), the goal is to reconstruct the point at \((x-v \Delta t ,v,t-\Delta t)\) at previous time step. Different polynomial reconstructions exist, we chose to use a CWENO-3.2 polynomial reconstruction to prevent Gibbs phenomenom close to discontinuity.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            MathJax.Hub.Register.StartupHook('End', function() {
+                window.setTimeout(window.print, 100);
+            });
+        });
+        </script>
+
+    </div>
+    </body>
+</html>
